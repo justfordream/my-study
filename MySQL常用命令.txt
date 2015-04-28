@@ -1,0 +1,78 @@
+
+show databases;
+
+show variables;
+
+show variables like '%commit%';
+
+set autocommit = 1;
+
+set session transaction isolation level read committed;
+
+show tables;
+
+show table status like 'user';
+
+explain select film_id, actor_id from film_actor
+	where actor_id = 1 or film_id = 1
+	
+create database mydatabase;
+drop database mydatabase;
+use mydatabase;
+
+create table MEMBER_INFO
+(
+  ID                    BIGINT not null,
+  MEMBER_NO             BIGINT not null,
+  MEMBER_TYPE           VARCHAR(10) not null,
+  MEMBER_NAME           VARCHAR(100),
+  STATUS                VARCHAR(10) not null,
+  CERT_TYPE_CODE        VARCHAR(10),
+  CERT_NO               VARCHAR(30),
+  DEALER_FLAG           VARCHAR(10) not null,
+  NAME_AUTH_FLAG        CHAR(1) not null,
+  SAFE_FLAG             VARCHAR(10) not null,
+  SYS_SOURCE            VARCHAR(20) not null,
+  MEMBER_SRC            VARCHAR(30),
+  ACTIVE                VARCHAR(30),
+  CHANNEL               VARCHAR(30),
+  REASON_DESC           VARCHAR(200),
+  CREATE_ID             int,
+  CREATE_DATE           VARCHAR(50),
+  UPDATE_ID             int,
+  UPDATE_DATE           VARCHAR(50),
+  CERT_VALID_END_DATE   VARCHAR(50),
+  CERT_VALID_BEGIN_DATE VARCHAR(50),
+  CREATE_JOB_NO         VARCHAR(20),
+  UPDATE_JOB_NO         VARCHAR(20),
+  MONTHLY_ACCOUNT       VARCHAR(30),
+  OPEN_FUNCTION         VARCHAR(100),
+  CERTPIC_FRONT         VARCHAR(255),
+  CERTPIC_REVERSE       VARCHAR(255),
+  CONSTRAINT PRIMARY_MEMBER_INFO PRIMARY KEY (ID)
+)ENGINE = INNODB;
+
+create table rental(
+	rental_id bigint not null,
+	inventory_id bigint not null,
+	customer_id bigint not null,
+	rental_date timestamp,
+	remark varchar(100),
+	primary key (rental_id),
+	unique key rental_date (rental_date, inventory_id, customer_id),
+	key idx_fk_inventory_id (inventory_id),
+	key idx_fk_customer_id (customer_id)
+);
+
+
+alter table userinfo drop key state_id, add key state_id_2 (state_id, city, address);
+
+--修改表的存储引擎为当前的引擎
+alter table member_info engine=innodb;
+
+show index from member_info;
+
+alter table member_info drop foreign key fk_account_id;
+alter table member_info drop key fk_cert_id;
+
+show status like 'Last_query_cost';
